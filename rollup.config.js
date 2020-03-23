@@ -1,4 +1,6 @@
 import pkg from './package.json'
+import { terser } from "rollup-plugin-terser";
+
 export default {
   input: 'lib/index.js',
   output: [
@@ -15,4 +17,5 @@ export default {
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {}),
   ],
+  plugins: [terser()]
 }
