@@ -2,6 +2,10 @@
   "name": "number-to-text-vietnamese",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/namnh240795/number-to-text-vietnamese"
+  },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
@@ -9,9 +13,12 @@
     "test": "jest",
     "build": "rollup -c"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "number",
-    "number to text"
+    "number-to-text"
   ],
   "author": "Nam Nguyễn <namnh240795@gmail.com>",
   "license": "MIT",
