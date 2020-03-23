@@ -1,10 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var isNumber = _interopDefault(require('lodash/isNumber'));
+import isNumber from 'lodash/isNumber';
 
 const base = ["không","một","hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
 const base_ten = ["mười", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi"];
@@ -164,5 +158,5 @@ const getText = (number) => {
 
 var index = { getText };
 
-exports.default = index;
-exports.getText = getText;
+export default index;
+export { getText };

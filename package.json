@@ -1,19 +1,20 @@
 {
-  "name": "number-to-text",
+  "name": "number-to-text-vietnamese",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "scripts": {
     "start": "babel-node --presets es2015 index.js",
     "test": "jest",
-    "build": "babel --presets es2015 -d dist/ lib"
+    "build": "rollup -c"
   },
   "keywords": [
     "number",
     "number to text"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Nam Nguyễn <namnh240795@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "lodash": "^4.17.15"
   },
