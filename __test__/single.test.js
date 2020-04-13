@@ -15,3 +15,15 @@ test(`năm mươi tư`, () => {
 test('một trăm linh tư nghìn năm trăm', () => {
   expect(getText(104500)).toBe('một trăm linh tư nghìn năm trăm');
 })
+
+test('5000909', () => {
+  expect(getText(5000909)).toBe('năm triệu chín trăm linh chín');
+})
+
+test('5000000909', () => {
+  expect(getText(5000000909)).toBe('năm tỷ chín trăm linh chín');
+})
+
+test('5000100909', () => {
+  expect(getText(5000100909)).toBe('năm tỷ một trăm nghìn chín trăm linh chín');
+})
