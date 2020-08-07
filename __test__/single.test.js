@@ -30,3 +30,7 @@ test('5000100909', () => {
 test('9999999999', () => {
   expect(getText(9999999999)).toBe('chín tỷ chín trăm chín mươi chín triệu chín trăm chín mươi chín nghìn chín trăm chín mươi chín');
 })
+
+test('-123', () => {
+  expect(getText(-123)).toBe('âm một trăm hai mươi ba');
+});
