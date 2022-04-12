@@ -68,3 +68,7 @@ test('- 0', () => {
 test('9007199254740992', () => {
   expect(getText(9007199254740992)).toBe('chín triệu bảy nghìn một trăm chín mươi chín tỷ hai trăm năm mươi tư triệu bảy trăm bốn mươi nghìn chín trăm chín mươi hai')
 })
+
+test('10010001', () => {
+  expect(getText(10010001)).toBe('mười triệu mười nghìn không trăm linh một')
+})
