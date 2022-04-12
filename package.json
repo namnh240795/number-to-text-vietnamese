@@ -22,9 +22,7 @@
   ],
   "author": "Nam Nguyễn <namnh240795@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "lodash": "4.17.21"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
