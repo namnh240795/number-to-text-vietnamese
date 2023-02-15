@@ -2,6 +2,7 @@
 
 ### Installation
   yarn add number-to-text-vietnamese
+  npm install number-to-text-vietnamese
 
 ### How to use
 Support integer to text only
