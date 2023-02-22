@@ -1,4 +1,4 @@
 import { getText } from "./lib";
 
 
-console.log(getText(101111505865030, ','));
+console.log(getText(109231123456));
