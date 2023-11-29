@@ -12,6 +12,30 @@ test(`năm mươi tư`, () => {
   expect(getText(54)).toBe('năm mươi tư');
 })
 
+test(`mười bốn`, () => {
+  expect(getText(14)).toBe('mười bốn');
+})
+
+test(`một trăm mười bốn`, () => {
+  expect(getText(114)).toBe('một trăm mười bốn');
+})
+
+test(`một nghìn không trăm mười bốn`, () => {
+  expect(getText(1014)).toBe('một nghìn không trăm mười bốn');
+})
+
+test(`một nghìn một trăm mười bốn`, () => {
+  expect(getText(1114)).toBe('một nghìn một trăm mười bốn');
+})
+
+test(`một trăm linh một nghìn một trăm mười bốn`, () => {
+  expect(getText(101114)).toBe('một trăm linh một nghìn một trăm mười bốn');
+})
+
+test(`mười bốn triệu không trăm mười bốn`, () => {
+  expect(getText(14000014)).toBe('mười bốn triệu không trăm mười bốn');
+})
+
 test('một trăm linh tư nghìn năm trăm', () => {
   expect(getText(104500)).toBe('một trăm linh tư nghìn năm trăm');
 })
