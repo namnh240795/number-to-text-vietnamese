@@ -36,3 +36,7 @@ Thumbs.db
 
 # Optional
 pnpm-lock.yaml
+
+# Development tools
+.claude/
+.specify/
