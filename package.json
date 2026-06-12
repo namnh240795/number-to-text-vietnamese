@@ -1,6 +1,6 @@
 {
   "name": "number-to-text-vietnamese",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Convert numbers to Vietnamese text",
   "repository": {
     "type": "git",
