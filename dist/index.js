@@ -1,8 +1,11 @@
-
+Object.defineProperties(exports, {
+	__esModule: { value: true },
+	[Symbol.toStringTag]: { value: "Module" }
+});
 //#region lib/utils.js
 const toString = Object.prototype.toString;
 function getTag(value) {
-	if (value == null) return value === undefined ? "[object Undefined]" : "[object Null]";
+	if (value == null) return value === void 0 ? "[object Undefined]" : "[object Null]";
 	return toString.call(value);
 }
 function isObjectLike(value) {
@@ -29,23 +32,19 @@ function addSeperator(result = "", seperator = "") {
 	for (let i = 0; i < unitPositions.length; i++) {
 		const unit = unitPositions[i];
 		if (unit.unit === "tỷ") groupMarkers.push(unit);
-else if (unit.unit === "triệu") {
-			const hasTysAfter = unitPositions.slice(i + 1).some((u) => u.unit === "tỷ");
-			if (!hasTysAfter) groupMarkers.push(unit);
+		else if (unit.unit === "triệu") {
+			if (!unitPositions.slice(i + 1).some((u) => u.unit === "tỷ")) groupMarkers.push(unit);
 		} else if (unit.unit === "nghìn") {
-			const hasHigherAfter = unitPositions.slice(i + 1).some((u) => u.unit === "triệu" || u.unit === "tỷ");
-			if (!hasHigherAfter) groupMarkers.push(unit);
+			if (!unitPositions.slice(i + 1).some((u) => u.unit === "triệu" || u.unit === "tỷ")) groupMarkers.push(unit);
 		}
 	}
 	const resultWords = [];
 	for (let i = 0; i < words.length; i++) {
 		resultWords.push(words[i]);
-		const isGroupMarker = groupMarkers.find((u) => u.index === i);
-		if (isGroupMarker && i < words.length - 1) resultWords[resultWords.length - 1] = words[i] + seperator;
+		if (groupMarkers.find((u) => u.index === i) && i < words.length - 1) resultWords[resultWords.length - 1] = words[i] + seperator;
 	}
 	return resultWords.join(" ");
 }
-
 //#endregion
 //#region lib/index.js
 const base = [
@@ -127,7 +126,7 @@ const getMillion = (number) => {
 	const beforeLength = `${before_number}`.length;
 	let afterText = "";
 	if (parseInt(after_number) > 999) afterText = getThousand(after_number);
-else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(3, 6).join(""));
+	else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(3, 6).join(""));
 	if (beforeLength === 1) return `${base[before_number]} triệu${afterText ? " " + afterText : ""}`;
 	if (beforeLength === 2) return `${getTen(before_number)} triệu${afterText ? " " + afterText : ""}`;
 	return `${getHundred(before_number)} triệu${afterText ? " " + afterText : ""}`;
@@ -138,8 +137,8 @@ const getBillion = (number) => {
 	const before_number = parseInt(reverse_array.slice(9, reverse_array.length).reverse().join(""));
 	let afterText = "";
 	if (parseInt(after_number) > 999999 && parseInt(after_number) <= 999999999) afterText = getMillion(after_number);
-else if (parseInt(after_number) <= 999999 && parseInt(after_number) > 999) afterText = getThousand(`${after_number}`.split("").slice(3, 9).join(""));
-else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(6, 9).join(""));
+	else if (parseInt(after_number) <= 999999 && parseInt(after_number) > 999) afterText = getThousand(`${after_number}`.split("").slice(3, 9).join(""));
+	else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(6, 9).join(""));
 	const beforeLength = `${before_number}`.length;
 	if (beforeLength === 1) return `${base[before_number]} tỷ${afterText ? " " + afterText : ""}`;
 	if (beforeLength === 2) return `${getTen(before_number)} tỷ${afterText ? " " + afterText : ""}`;
@@ -166,7 +165,8 @@ const getText = (number, seperator = "") => {
 	return result;
 };
 const numberToText = { getText };
-var lib_default = numberToText;
-
 //#endregion
-export { lib_default as default, getText };
+exports.default = numberToText;
+exports.getText = getText;
+
+//# sourceMappingURL=index.js.map

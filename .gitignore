@@ -34,9 +34,6 @@ Thumbs.db
 # Rollup/Rolldown
 .rollup.cache/
 
-# Optional
-pnpm-lock.yaml
-
 # Development tools
 .claude/
 .specify/
