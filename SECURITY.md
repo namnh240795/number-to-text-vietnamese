@@ -2,20 +2,23 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
 | Version | Supported          |
 | ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| 2.0.x   | :white_check_mark: |
+| 1.1.x   | :x:                |
+| < 1.1   | :x:                |
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability within number-to-text-vietnamese, please send an email to Nam Nguyễn via namnh240795@gmail.com. All security vulnerabilities will be promptly addressed.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## Security Best Practices
+
+- This library is a pure function with no side effects
+- No network requests or file system access
+- Input validation prevents injection attacks
+- No eval() or dynamic code execution
+
+## Dependencies
+
+We regularly audit dependencies for known vulnerabilities using `pnpm audit`. All dependencies are kept up to date to ensure security.

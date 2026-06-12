@@ -1,8 +1,0 @@
-{
-  "extends": "eslint-config-umi",
-  "rules": {
-    "no-debugger": "error",
-    "no-duplicate-imports": "error",
-    "no-unused-vars": "error"
-  }
-}

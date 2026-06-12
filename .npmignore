@@ -1,0 +1,32 @@
+# Source files
+lib/
+__tests__/
+__test__/
+
+# Config files
+.specify/
+.github/
+.eslintrc*
+babel.config.js
+jest.config.js
+rolldown.config.js
+tsconfig.json
+.gitignore
+
+# Development files
+coverage/
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+yarn-error.log
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

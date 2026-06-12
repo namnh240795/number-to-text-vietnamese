@@ -1,1 +1,172 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});const t=Object.prototype.toString;function e(e){return"number"==typeof e||function(t){return"object"==typeof t&&null!==t}(e)&&"[object Number]"==function(e){return null==e?void 0===e?"[object Undefined]":"[object Null]":t.call(e)}(e)}const n=["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"],r=["mười","hai mươi","ba mươi","bốn mươi","năm mươi","sáu mươi","bảy mươi","tám mươi","chín mươi"],s=["không trăm","một trăm","hai trăm","ba trăm","bốn trăm","năm trăm","sáu trăm","bảy trăm","tám trăm","chín trăm"],i=t=>{const e=`${t}`.split(""),s=parseInt(e[0]),i=parseInt(e[1]);return 0===i?r[s-1]:5===i?`${r[s-1]} lăm`:4===i?1===s?`${r[s-1]} bốn`:`${r[s-1]} tư`:1===i?1===s?`${r[s-1]} một`:`${r[s-1]} mốt`:`${r[s-1]} ${n[i]}`},$=t=>{const e=`${t}`.split(""),r=parseInt(e[0]),$=parseInt(e[1]),o=parseInt(e[2]);return $>0?`${s[r]} ${i(`${$}${o}`)}`:0===o?`${s[r]}`:4===o?`${s[r]} linh tư`:`${s[r]} linh ${n[o]}`},o=t=>{const e=`${t}`.split("").reverse(),r=e.slice(0,3).reverse().join(""),s=parseInt(e.slice(3,e.length).reverse().join("")),o=`${s}`.length;let l="";return parseInt(r)>=1&&(l=$(r)),1===o?`${n[s]} nghìn ${l}`:2===o?`${i(s)} nghìn ${l}`:`${$(s)} nghìn ${l}`},l=t=>{const e=`${t}`.split("").reverse(),r=e.slice(0,6).reverse().join(""),s=parseInt(e.slice(6,e.length).reverse().join("")),l=`${s}`.length;let c="";return parseInt(r)>999?c=o(r):parseInt(r)<=999&&parseInt(r)>=1&&(c=$(`${r}`.split("").slice(3,6).join(""))),1===l?`${n[s]} triệu ${c}`:2===l?`${i(s)} triệu ${c}`:`${$(s)} triệu ${c}`},c=(t,r="")=>{try{if(!e(t))throw new Error("Input is not a number");if(Math.abs(t)>9007199254740992)throw new Error("Your number is too big");if(t<0)return`âm ${c(Math.abs(t))}`;const s=`${t}`.length;let p;return 1===s&&(p=n[t]),2===s&&(p=i(t)),3===s&&(p=$(t)),s>3&&s<=6&&(p=o(t)),s>6&&s<=9&&(p=l(t)),s>9&&(p=(t=>{const e=`${t}`.split("").reverse(),r=e.slice(0,9).reverse().join(""),s=parseInt(e.slice(9,e.length).reverse().join(""));let c="";parseInt(r)>999999&&parseInt(r)<=999999999?c=l(r):parseInt(r)<=999999&&parseInt(r)>999?c=o(`${r}`.split("").slice(3,9).join("")):parseInt(r)<=999&&parseInt(r)>=1&&(c=$(`${r}`.split("").slice(6,9).join("")));const p=`${s}`.length;return 1===p?`${n[s]} tỷ ${c}`:2===p?`${i(s)} tỷ ${c}`:3===p?`${$(s)} tỷ ${c}`:p>3&&p<=6?`${o(s)} tỷ ${c}`:p>6&&p<=9?`${l(s)} tỷ ${c}`:void 0})(t)),r?function(t="",e=""){let n=t.split(" ").reverse();const r=n.findIndex((t=>"trăm"===t)),s=n.findIndex((t=>"nghìn"===t)),i=n.findIndex((t=>"triệu"===t)),$=n.findIndex((t=>"tỷ"===t));return-1!==$&&e&&n.splice($,1,`${n[$]}${e}`),-1!==i&&e&&n.splice(i,1,`${n[i]}${e}`),-1!==s&&e&&-1!==r&&n.splice(s,1,`${n[s]}${e}`),n.reverse().join(" ")}(p,r):p}catch(t){console.error("error",t)}},p={getText:c};exports.default=p,exports.getText=c;
+
+//#region lib/utils.js
+const toString = Object.prototype.toString;
+function getTag(value) {
+	if (value == null) return value === undefined ? "[object Undefined]" : "[object Null]";
+	return toString.call(value);
+}
+function isObjectLike(value) {
+	return typeof value === "object" && value !== null;
+}
+function isNumber(value) {
+	return typeof value === "number" || isObjectLike(value) && getTag(value) == "[object Number]";
+}
+function addSeperator(result = "", seperator = "") {
+	if (!seperator || !result) return result;
+	const words = result.split(" ");
+	const unitHierarchy = {
+		"nghìn": 1,
+		"triệu": 2,
+		"tỷ": 3
+	};
+	const unitPositions = [];
+	for (let i = 0; i < words.length; i++) if (Object.prototype.hasOwnProperty.call(unitHierarchy, words[i])) unitPositions.push({
+		index: i,
+		unit: words[i],
+		level: unitHierarchy[words[i]]
+	});
+	const groupMarkers = [];
+	for (let i = 0; i < unitPositions.length; i++) {
+		const unit = unitPositions[i];
+		if (unit.unit === "tỷ") groupMarkers.push(unit);
+else if (unit.unit === "triệu") {
+			const hasTysAfter = unitPositions.slice(i + 1).some((u) => u.unit === "tỷ");
+			if (!hasTysAfter) groupMarkers.push(unit);
+		} else if (unit.unit === "nghìn") {
+			const hasHigherAfter = unitPositions.slice(i + 1).some((u) => u.unit === "triệu" || u.unit === "tỷ");
+			if (!hasHigherAfter) groupMarkers.push(unit);
+		}
+	}
+	const resultWords = [];
+	for (let i = 0; i < words.length; i++) {
+		resultWords.push(words[i]);
+		const isGroupMarker = groupMarkers.find((u) => u.index === i);
+		if (isGroupMarker && i < words.length - 1) resultWords[resultWords.length - 1] = words[i] + seperator;
+	}
+	return resultWords.join(" ");
+}
+
+//#endregion
+//#region lib/index.js
+const base = [
+	"không",
+	"một",
+	"hai",
+	"ba",
+	"bốn",
+	"năm",
+	"sáu",
+	"bảy",
+	"tám",
+	"chín"
+];
+const base_ten = [
+	"mười",
+	"hai mươi",
+	"ba mươi",
+	"bốn mươi",
+	"năm mươi",
+	"sáu mươi",
+	"bảy mươi",
+	"tám mươi",
+	"chín mươi"
+];
+const base_hundred = [
+	"không trăm",
+	"một trăm",
+	"hai trăm",
+	"ba trăm",
+	"bốn trăm",
+	"năm trăm",
+	"sáu trăm",
+	"bảy trăm",
+	"tám trăm",
+	"chín trăm"
+];
+const getTen = (number) => {
+	const array = `${number}`.split("");
+	const first = parseInt(array[0]);
+	const second = parseInt(array[1]);
+	if (second === 0) return base_ten[first - 1];
+	if (second === 5) return `${base_ten[first - 1]} lăm`;
+	if (second === 4) {
+		if (first === 1) return `${base_ten[first - 1]} bốn`;
+		return `${base_ten[first - 1]} tư`;
+	}
+	if (second === 1) {
+		if (first === 1) return `${base_ten[first - 1]} một`;
+		return `${base_ten[first - 1]} mốt`;
+	}
+	return `${base_ten[first - 1]} ${base[second]}`;
+};
+const getHundred = (number) => {
+	const array = `${number}`.split("");
+	const first = parseInt(array[0]);
+	const second = parseInt(array[1]);
+	const third = parseInt(array[2]);
+	if (second > 0) return `${base_hundred[first]} ${getTen(`${second}${third}`)}`;
+	if (third === 0) return `${base_hundred[first]}`;
+	if (third === 4) return `${base_hundred[first]} linh tư`;
+	return `${base_hundred[first]} linh ${base[third]}`;
+};
+const getThousand = (number) => {
+	const reverse_array = `${number}`.split("").reverse();
+	const after_number = reverse_array.slice(0, 3).reverse().join("");
+	const before_number = parseInt(reverse_array.slice(3, reverse_array.length).reverse().join(""));
+	const beforeLength = `${before_number}`.length;
+	let afterText = "";
+	if (parseInt(after_number) >= 1) afterText = getHundred(after_number);
+	if (beforeLength === 1) return `${base[before_number]} nghìn${afterText ? " " + afterText : ""}`;
+	if (beforeLength === 2) return `${getTen(before_number)} nghìn${afterText ? " " + afterText : ""}`;
+	return `${getHundred(before_number)} nghìn${afterText ? " " + afterText : ""}`;
+};
+const getMillion = (number) => {
+	const reverse_array = `${number}`.split("").reverse();
+	const after_number = reverse_array.slice(0, 6).reverse().join("");
+	const before_number = parseInt(reverse_array.slice(6, reverse_array.length).reverse().join(""));
+	const beforeLength = `${before_number}`.length;
+	let afterText = "";
+	if (parseInt(after_number) > 999) afterText = getThousand(after_number);
+else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(3, 6).join(""));
+	if (beforeLength === 1) return `${base[before_number]} triệu${afterText ? " " + afterText : ""}`;
+	if (beforeLength === 2) return `${getTen(before_number)} triệu${afterText ? " " + afterText : ""}`;
+	return `${getHundred(before_number)} triệu${afterText ? " " + afterText : ""}`;
+};
+const getBillion = (number) => {
+	const reverse_array = `${number}`.split("").reverse();
+	const after_number = reverse_array.slice(0, 9).reverse().join("");
+	const before_number = parseInt(reverse_array.slice(9, reverse_array.length).reverse().join(""));
+	let afterText = "";
+	if (parseInt(after_number) > 999999 && parseInt(after_number) <= 999999999) afterText = getMillion(after_number);
+else if (parseInt(after_number) <= 999999 && parseInt(after_number) > 999) afterText = getThousand(`${after_number}`.split("").slice(3, 9).join(""));
+else if (parseInt(after_number) <= 999 && parseInt(after_number) >= 1) afterText = getHundred(`${after_number}`.split("").slice(6, 9).join(""));
+	const beforeLength = `${before_number}`.length;
+	if (beforeLength === 1) return `${base[before_number]} tỷ${afterText ? " " + afterText : ""}`;
+	if (beforeLength === 2) return `${getTen(before_number)} tỷ${afterText ? " " + afterText : ""}`;
+	if (beforeLength === 3) return `${getHundred(before_number)} tỷ${afterText ? " " + afterText : ""}`;
+	if (beforeLength > 3 && beforeLength <= 6) return `${getThousand(before_number)} tỷ${afterText ? " " + afterText : ""}`;
+	if (beforeLength > 6 && beforeLength <= 9) return `${getMillion(before_number)} tỷ${afterText ? " " + afterText : ""}`;
+};
+const getText = (number, seperator = "") => {
+	if (!isNumber(number)) throw new Error("Input is not a number");
+	if (Number.isNaN(number)) throw new Error("Input is not a number");
+	if (!isFinite(number)) throw new Error("Your number is too big");
+	if (!Number.isInteger(number)) throw new Error("Input must be an integer");
+	if (Math.abs(number) >= 9007199254740992) throw new Error("Your number is too big");
+	if (number < 0) return `âm ${getText(Math.abs(number))}`;
+	const length = `${number}`.length;
+	let result;
+	if (length === 1) result = base[number];
+	if (length === 2) result = getTen(number);
+	if (length === 3) result = getHundred(number);
+	if (length > 3 && length <= 6) result = getThousand(number);
+	if (length > 6 && length <= 9) result = getMillion(number);
+	if (length > 9) result = getBillion(number);
+	if (seperator) return addSeperator(result, seperator);
+	return result;
+};
+const numberToText = { getText };
+var lib_default = numberToText;
+
+//#endregion
+export { lib_default as default, getText };
